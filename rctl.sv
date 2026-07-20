@@ -35,7 +35,7 @@ module rctl(
 
     assign rgray_next = (rbin_next >> 1) ^ rbin_next; //translate to gray
     
-    assign raddr = rbin[ADDR_WIDTH-1:0]; //ignore the MSB because that bit tells us the round we are
+    assign raddr = rbin[ADDR_WIDTH-1:0]; //ignore the MSB because that bit tells us the lap we are
 
     always_ff @(posedge rclk or negedge rrst_n) begin
         if(!rrst_n) begin 
