@@ -1,42 +1,34 @@
-module wctl(
-        wq2_rptr,
-        wclk, wrst_n,
-        wput,
-        wfull,
-        waddr,
-        wenable,
-        wptr
-);
-
-    parameter DATA_WIDTH = 9,
-              ADDR_WIDTH = 8;
-    
+module wctl #(
+    parameter DATA_WIDTH = 7,
+    parameter ADDR_WIDTH = 6
+)(
     //INPUTS
-    input logic[DATA_WIDTH-1:0] wq2_rptr;
-    input logic wclk, wrst_n, wput;
+    input logic[DATA_WIDTH-1:0] wq2_rptr,
+    input logic wclk, wrst_n, wput,
 
     //OUTPUTS
-    output logic[DATA_WIDTH-1:0] wptr;
-    output logic[ADDR_WIDTH-1:0] waddr;
-    output logic wfull, wenable;
+    output logic[DATA_WIDTH-1:0] wptr, wbin,
+    output logic[ADDR_WIDTH-1:0] waddr,
+    output logic wfull, wenable
+);
     
     //internal wires
     logic winc;
-    logic[DATA_WIDTH-1:0] wbin, wbin_next, wgray;
+    logic[DATA_WIDTH-1:0] wbin_next, wgray_next;
 
 
     logic[1:0] aux;
-    assign aux = ~wq2_rptr[DATA_WIDTH - 1: DATA_WIDTH - 2];
     logic[DATA_WIDTH-1:0] comp;
+    assign aux = ~wq2_rptr[DATA_WIDTH - 1: DATA_WIDTH - 2];
     assign comp = {aux, wq2_rptr[DATA_WIDTH-3:0]};
-
-    assign wfull = (comp == wptr);
 
     assign winc = ~wfull & wput;
 
     assign wbin_next = wbin + winc;
 
-    assign wgray = (wbin_next >> 1) ^ wbin_next;
+    assign wgray_next = (wbin_next >> 1) ^ wbin_next;
+
+    assign wfull = (comp == wptr);
 
     assign waddr = wbin[ADDR_WIDTH-1:0];
     
@@ -49,7 +41,7 @@ module wctl(
         end
         else begin
                 wbin <= wbin_next;
-                wptr <= wgray;
+                wptr <= wgray_next;
         end
     end
 
