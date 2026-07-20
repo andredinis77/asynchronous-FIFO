@@ -1,23 +1,25 @@
-`include "flip_flop.sv"
+ `include "flip_flop_read.sv"
 
 
-module sync2_read(
-            input logic [8:0] wptr,
+module sync2_read #(
+            parameter DATA_WIDTH = 7
+)(
+            input logic [DATA_WIDTH-1:0] wptr,
             input logic rclk, rrst_n,
-            output logic [8:0] rq2_wptr
+            output logic [DATA_WIDTH-1:0] rq2_wptr
 
 );  
 
-    logic[7:0] q1_out;
+    logic[DATA_WIDTH-1:0] q1_out;
 
-    flip_flop flip_flop1( 
+    flip_flop_read flip_flop1( 
         .rclk( rclk ),
         .rrst_n( rrst_n ),
         .d( wptr ),
         .q(q1_out)
     );
 
-    flip_flop flip_flop2(
+    flip_flop_read flip_flop2(
         .rclk( rclk ),
         .rrst_n( rrst_n ),
         .d( q1_out ),
