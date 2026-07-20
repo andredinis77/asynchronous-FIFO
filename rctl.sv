@@ -1,24 +1,19 @@
 
-module rctl(
-        rq2_wptr,
-        rclk, rrst_n,
-        rget,
-        rptr,
-        raddr,
-        emp_flag
-);
-    parameter DATA_WIDTH = 9,
-              ADDR_WIDTH = 8;
-
+module rctl #(
+    parameter DATA_WIDTH = 7,
+    parameter ADDR_WIDTH = 6
+)(
     //INPUTS
-    input logic[DATA_WIDTH-1:0] rq2_wptr; //what comes from write module
-    input logic rclk, rrst_n, rget;  //rget is if we have an order to read
+    input logic[DATA_WIDTH-1:0] rq2_wptr, //what comes from write module
+    input logic rclk, rrst_n, rget,  //rget is if we have an order to read
 
     //OUTPUTS
-    output logic[DATA_WIDTH-1:0] rptr;  //rptr that goes to write module
-    output logic[ADDR_WIDTH-1:0] raddr; //what goes to fifo memory
-    output logic emp_flag;              //see if it's empty
+    output logic[DATA_WIDTH-1:0] rptr,  //rptr that goes to write module
+    output logic[ADDR_WIDTH-1:0] raddr, //what goes to fifo memory
+    output logic emp_flag              //see if it's empty
 
+);
+    
     //INTERNAL WIRES    
     logic rrdy; //flag to check if fifo is empty
     logic rinc; //incrementation of rbin
@@ -35,7 +30,7 @@ module rctl(
 
     assign rgray_next = (rbin_next >> 1) ^ rbin_next; //translate to gray
     
-    assign raddr = rbin[ADDR_WIDTH-1:0]; //ignore the MSB because that bit tells us the lap we are
+    assign raddr = rbin[ADDR_WIDTH-1:0]; //ignore the MSB because that bit tells us the round we are
 
     always_ff @(posedge rclk or negedge rrst_n) begin
         if(!rrst_n) begin 
