@@ -93,7 +93,7 @@ module test_fifo  #(
             
             pulse_read;
             $display("FLAGS: empty=%b / full=%b / READ %0d: output=%b expected=%b --> %0s", emp_flag, wfull, j, rdata, tst_vector[j], (rdata==tst_vector[j])?"OK":"MISMATCH");
-            $display("wbin: %b", wbin); //this will serves to understand the full's logic
+            $display("wbin: %b", wbin); //this will stands to understand the full's logic
             j = j + 1;
            
             #5;
