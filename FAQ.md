@@ -46,5 +46,4 @@ To overcome metastability, which occurs when the system is almost stable. The va
 
 The first flip-flop captures the signal and stabilizes it, passing it to the second flip-flop so the final value is ready to be processed correctly and safely without timing errors.
 
-rbin = 0_000000;
-wbin = 1_000000;  —> FIFO is FULL (same address, different lap)
+
