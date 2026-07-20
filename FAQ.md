@@ -4,8 +4,6 @@ Asynchronous FIFO with 64 positions, using 6 bits for data width.
 
 I built this FIFO memory to enhance my skills in SystemVerilog, synchronous and asynchronous concepts, testbench logic, and to learn new things.
 
-It is nothing fancy — I am an Electrical and Computer Engineering student in my third year of college, and I am just building stuff to learn new concepts, SystemVerilog/Verilog, testbench skills, and other things that college doesn't teach.
-
 ---
 
 ## My FIFO Project — FAQ & Concept Breakdown
